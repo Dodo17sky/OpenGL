@@ -3,7 +3,11 @@
 #include "glad\glad.h"
 #include "GLFW\glfw3.h"
 
+// callbacks
 void resize_callback(GLFWwindow* win, int width, int height);
+
+// static functions
+void processInput(GLFWwindow* win);
 
 int main()
 {
@@ -24,10 +28,15 @@ int main()
         std::cout << "Failed to initilize GLAD" << std::endl;
         return -1;
     }
+    glClearColor(0.2, 0.5, 0.7, 1.0);
     glViewport(0, 0, 480, 360);
     glfwSetFramebufferSizeCallback(window, resize_callback);
 
     while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        processInput(window);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -39,4 +48,10 @@ int main()
 void resize_callback(GLFWwindow* win, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow * win)
+{
+    if(glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(win, 1);
 }

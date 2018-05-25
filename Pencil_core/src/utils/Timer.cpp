@@ -13,7 +13,7 @@ namespace Pencil {
         m_startTime = glfwGetTime();
     }
 
-    float Timer::getElapsedTime() const
+    float Timer::getElapsedTime()
     {
         return (glfwGetTime() - m_startTime);
     }

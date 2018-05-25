@@ -11,8 +11,8 @@ namespace Pencil {
         unsigned int frames;
     public:
         Timer();
-        inline void startCount();
-        inline float getElapsedTime() const;
+        void startCount();
+        float getElapsedTime();
         void printFPS();
         inline float now() { return glfwGetTime(); }
     };

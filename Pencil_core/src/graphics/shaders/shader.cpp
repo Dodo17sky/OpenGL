@@ -48,6 +48,11 @@ namespace Pencil {
         glUniform4f(getUniformLocation(name), f1, f2, f3, f4);
     }
 
+    void Shader::setUniform1f(const char * name, float f1)
+    {
+        glUniform1f(getUniformLocation(name), f1);
+    }
+
     unsigned int Shader::compileShader(GLenum type, const char* filePath)
     {
         std::string str = Pencil::read_file(filePath);

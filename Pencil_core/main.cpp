@@ -86,6 +86,9 @@ int main()
     glBindVertexArray(0); 
 
     Timer timer;
+    timer.startCount();
+    float off = -0.3;
+    float step = 0.01;
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -94,6 +97,18 @@ int main()
 
         shader.enable();
         glBindVertexArray(VAO);
+
+        if (timer.getElapsedTime() > 0.01) {
+            shader.setUniform1f("offset", off);
+            if(off > 0.3)
+                step = -0.01;
+            if(off < -0.3)
+                step = 0.01;
+            
+            off += step;
+            timer.startCount();
+        }
+
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         timer.printFPS();

@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\basic.vertex" />
+    <None Include="src\graphics\shaders\basic.fragment" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\shaders\shader.h">

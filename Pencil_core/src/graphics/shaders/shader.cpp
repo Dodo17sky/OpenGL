@@ -43,10 +43,9 @@ namespace Pencil {
         glUseProgram(0);
     }
 
-    void Shader::setUniform4f(const GLchar * name, float r, float g, float b)
+    void Shader::setUniform4f(const char * name, float f1, float f2, float f3, float f4)
     {
-        GLint id = glGetUniformLocation(m_programId, name);
-        glUniform4f(id, r, g, b, 1.0);
+        glUniform4f(getUniformLocation(name), f1, f2, f3, f4);
     }
 
     unsigned int Shader::compileShader(GLenum type, const char* filePath)
@@ -68,6 +67,11 @@ namespace Pencil {
         }
 
         return shaderId;
+    }
+
+    int Shader::getUniformLocation(const char * name)
+    {
+        return glGetUniformLocation(m_programId, name);
     }
 
 }

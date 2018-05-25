@@ -90,6 +90,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.enable();
+        shader.setUniform4f("mycolor", 0.0, 0.0, 1.0, 1.0);
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

@@ -4,6 +4,7 @@
 #include "GLFW\glfw3.h"
 
 #include "src\graphics\shaders\shader.h"
+#include "src\utils\Timer.h"
 
 // callbacks
 void resize_callback(GLFWwindow* win, int width, int height);
@@ -16,6 +17,8 @@ GLenum polygonMode = GL_FILL;
 
 int main()
 {
+    using namespace Pencil;
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -78,7 +81,9 @@ int main()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     glBindVertexArray(0); 
-    
+
+    Timer timer;
+
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
@@ -87,6 +92,8 @@ int main()
         shader.enable();
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        timer.printFPS();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -148,6 +148,7 @@
     <ClCompile Include="ext\glad\glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\graphics\shaders\shader.cpp" />
+    <ClCompile Include="src\utils\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\basic.fragment" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="src\graphics\shaders\shader.h" />
     <ClInclude Include="src\utils\fileutils.h" />
+    <ClInclude Include="src\utils\Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

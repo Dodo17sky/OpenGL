@@ -2,7 +2,11 @@
 
 layout (location = 0)	in		vec3	m_pos;
 
+out vec4 pixelColor; // specify a color output to the fragment shader
+
 void main()
 {
 	gl_Position = vec4(m_pos.x, m_pos.y, m_pos.z, 1.0);
+
+	pixelColor = vec4(0.0f, 0.7f, 0.0f, 1.0f);
 }

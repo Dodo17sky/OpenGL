@@ -71,7 +71,10 @@ namespace Pencil {
 
     int Shader::getUniformLocation(const char * name)
     {
-        return glGetUniformLocation(m_programId, name);
+        int uniformId = glGetUniformLocation(m_programId, name);
+        if(uniformId == (-1))
+            std::cout << "Error: Uniform \"" << name << "\" not found" << std::endl;
+        return uniformId;
     }
 
 }

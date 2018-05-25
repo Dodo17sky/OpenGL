@@ -4,6 +4,5 @@ in vec4 pixelColor; // the input variable from the vertex shader (same name and 
 uniform vec4 mycolor;
 void main()
 {
-   FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-   FragColor = mycolor;
+   FragColor = pixelColor;
 }

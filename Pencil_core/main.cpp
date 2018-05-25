@@ -49,10 +49,11 @@ int main()
 
     //Define triangle coordinates
     float coords[] = {
-        -0.7, -0.7, 0.0,
-        -0.7,  0.7, 0.0,
-         0.7,  0.7, 0.0,
-         0.7, -0.7, 0.0,
+        /***      POSITION      /**         COLOR          /**/
+        /**/ -0.7, -0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/
+        /**/ -0.7,  0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/
+        /**/  0.7,  0.7, 0.0,   /**/    0.0f, 0.0f, 1.0f,  /**/
+        /**/  0.7, -0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f   /**/
     };
     GLuint indices[] = {
         0, 1, 2,
@@ -76,8 +77,10 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // Step 4: set "Vertex attribute"
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)12);
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     glBindVertexArray(0); 
@@ -90,11 +93,6 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.enable();
-
-        float timeValue = glfwGetTime();
-        float greenValue = sin(timeValue) / 2.0f + 0.5f;
-        shader.setUniform4f("mycolor", 0.0, greenValue, 0.0, 1.0);
-
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

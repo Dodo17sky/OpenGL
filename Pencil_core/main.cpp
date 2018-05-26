@@ -19,9 +19,18 @@ int main()
 {
     using namespace Pencil;
 
+	char name[32] = { 0 };
+	DWORD len = 32L;
+	GetComputerName(name, &len);
+	name[3] = '\0';
+
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	
+	if (strcmp(name, "RAL") != 0) {
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	}
+
     glfwWindowHint(GLFW_OPENGL_CORE_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow* window = glfwCreateWindow(480, 360, "Pencil game engine", NULL, NULL);

@@ -61,9 +61,9 @@ int main()
     float coords[] = {
         /***      POSITION      /**         COLOR          /**	texture coords	*/
         /**/ -0.7, -0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/		0.0, 0.0,	/**///	bottom left
-        /**/ -0.7,  0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 1.0,	/**///	top left
-        /**/  0.7,  0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	1.0, 1.0,	/**///	top right	
-        /**/  0.7, -0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	1.0, 0.0 	/**///	bottom right
+        /**/ -0.7,  0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 2.0,	/**///	top left
+        /**/  0.7,  0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	2.0, 2.0,	/**///	top right	
+        /**/  0.7, -0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	2.0, 0.0 	/**///	bottom right
     };
     GLuint indices[] = {
         0, 1, 2,
@@ -162,10 +162,14 @@ int main()
 
         if (timer.getElapsedTime() > 0.01) {
             shader.setUniform1f("offset", off);
-            if(off > 0.3)
-                step = -0.01;
-            if(off < -0.3)
-                step = 0.01;
+			if (off > 0.3) {
+				step = -0.01;
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			}
+			if (off < -0.3) {
+				step = 0.01;
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+			}
             
             off += step;
             timer.startCount();

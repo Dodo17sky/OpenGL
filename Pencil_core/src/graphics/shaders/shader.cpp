@@ -69,6 +69,9 @@ namespace Pencil {
             glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
             std::cout << "Shader error: " << ((type == GL_VERTEX_SHADER) ? "Vertex" : "Fragment")
                 << " compilation failed !\n" << infoLog << std::endl;
+			system("pause");
+			glDeleteShader(shaderId);
+			exit(-1);
         }
 
         return shaderId;

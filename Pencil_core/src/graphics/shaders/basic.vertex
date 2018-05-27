@@ -2,8 +2,10 @@
 
 layout (location = 0)	in		vec3	m_pos;
 layout (location = 1)	in		vec3	m_Color;
+layout (location = 2)	in		vec2	m_texCoord;
 
-out vec4 pixelColor; // specify a color output to the fragment shader
+out vec4 pixelColor;	// specify a color output to the fragment shader
+out vec2 texCoord;		// the 2D texture coordinates
 
 uniform float offset;
 
@@ -12,4 +14,5 @@ void main()
 	gl_Position = vec4(m_pos.x+offset, m_pos.y, m_pos.z, 1.0);
 
 	pixelColor = vec4(m_Color.r, m_Color.g, m_Color.b, 1.0f);
+	texCoord = m_texCoord;
 }

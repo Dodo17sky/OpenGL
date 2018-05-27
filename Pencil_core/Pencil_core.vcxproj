@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ext\glad\glad.c" />
+    <ClCompile Include="ext\stb_image\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\graphics\shaders\shader.cpp" />
     <ClCompile Include="src\utils\Timer.cpp" />
@@ -155,6 +156,7 @@
     <None Include="src\graphics\shaders\basic.vertex" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ext\stb_image\stb_image.h" />
     <ClInclude Include="src\graphics\shaders\shader.h" />
     <ClInclude Include="src\utils\fileutils.h" />
     <ClInclude Include="src\utils\Timer.h" />

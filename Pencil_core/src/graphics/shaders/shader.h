@@ -16,6 +16,7 @@ namespace Pencil {
 
         void setUniform4f(const char* name, float f1, float f2, float f3, float f4);
         void setUniform1f(const char* name, float f1);
+		void setUniform1i(const char* name, int i1);
 
     private:
         unsigned int compileShader(GLenum type, const char* filePath);

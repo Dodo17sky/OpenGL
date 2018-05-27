@@ -53,6 +53,11 @@ namespace Pencil {
         glUniform1f(getUniformLocation(name), f1);
     }
 
+	void Shader::setUniform1i(const char * name, int i1)
+	{
+		glUniform1i(getUniformLocation(name), i1);
+	}
+
     unsigned int Shader::compileShader(GLenum type, const char* filePath)
     {
         std::string str = Pencil::read_file(filePath);

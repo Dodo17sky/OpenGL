@@ -60,10 +60,10 @@ int main()
     //Define triangle coordinates
     float coords[] = {
         /***      POSITION      /**         COLOR          /**	texture coords	*/
-        /**/ -0.7, -0.7, 0.0,   /**/    0.0f, 1.0f, 1.0f,  /**/		0.0, 0.0,	/**///	bottom left
-        /**/ -0.7,  0.7, 0.0,   /**/    1.0f, 1.0f, 0.0f,  /**/ 	0.0, 1.0,	/**///	top left
+        /**/ -0.7, -0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/		0.0, 0.0,	/**///	bottom left
+        /**/ -0.7,  0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 1.0,	/**///	top left
         /**/  0.7,  0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	1.0, 1.0,	/**///	top right	
-        /**/  0.7, -0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	1.0, 0.0 	/**///	bottom right
+        /**/  0.7, -0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	1.0, 0.0 	/**///	bottom right
     };
     GLuint indices[] = {
         0, 1, 2,
@@ -99,9 +99,10 @@ int main()
 
 	int imgWidth, imgHeight, imgNmbChn;
 	unsigned char* imgBuf = stbi_load("container.jpg", &imgWidth, &imgHeight, &imgNmbChn, 0);
-	unsigned int texId;
-	glGenTextures(1, &texId);
-	glBindTexture(GL_TEXTURE_2D, texId);
+	unsigned int textureId1, textureId2;
+	glGenTextures(1, &textureId1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureId1);
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -117,6 +118,30 @@ int main()
 	}
 	stbi_image_free(imgBuf);
 
+	stbi_set_flip_vertically_on_load(true);
+	imgBuf = stbi_load("awesomeface.png", &imgWidth, &imgHeight, &imgNmbChn, 0);
+	glGenTextures(1, &textureId2);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, textureId2);
+	// set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	if (imgBuf) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imgWidth, imgHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgBuf);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		std::cout << "Failed to load image texture" << std::endl;
+	}
+	stbi_image_free(imgBuf);
+
+	shader.enable();
+	shader.setUniform1i("ourTexture1", 0);
+	shader.setUniform1i("ourTexture2", 1);
+
     Timer timer;
     timer.startCount();
     float off = -0.3;
@@ -127,7 +152,11 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT);
 
-		glBindTexture(GL_TEXTURE_2D, texId);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureId1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, textureId2);
+
         shader.enable();
         glBindVertexArray(VAO);
 
@@ -149,6 +178,11 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+
     glfwTerminate();
 
     return 0;

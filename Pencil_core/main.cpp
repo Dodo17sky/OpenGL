@@ -7,6 +7,10 @@
 #include "src\utils\Timer.h"
 #include "ext\stb_image\stb_image.h"
 
+#include "glm\glm.hpp"
+#include "glm\gtc\matrix_transform.hpp"
+#include "glm\gtc\type_ptr.hpp";
+
 // callbacks
 void resize_callback(GLFWwindow* win, int width, int height);
 
@@ -60,10 +64,10 @@ int main()
     //Define triangle coordinates
     float coords[] = {
         /***      POSITION      /**         COLOR          /**	texture coords	*/
-        /**/ -0.7, -0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/		0.0, 0.0,	/**///	bottom left
-        /**/ -0.7,  0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 2.0,	/**///	top left
-        /**/  0.7,  0.7, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	2.0, 2.0,	/**///	top right	
-        /**/  0.7, -0.7, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	2.0, 0.0 	/**///	bottom right
+        /**/ -1.0, -1.0, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/		0.0, 0.0,	/**///	bottom left
+        /**/ -1.0,  0.0, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 1.0,	/**///	top left
+        /**/  0.0,  0.0, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	1.0, 1.0,	/**///	top right	
+        /**/  0.0, -1.0, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	1.0, 0.0 	/**///	bottom right
     };
     GLuint indices[] = {
         0, 1, 2,
@@ -142,10 +146,16 @@ int main()
 	shader.setUniform1i("ourTexture1", 0);
 	shader.setUniform1i("ourTexture2", 1);
 
+	glm::mat4 transf;
+	// Order of transform operation that we had in mind:
+	// 1. move 1.0 on y axe
+	// 2. scale 0.5 on x
+	transf = glm::scale(transf, glm::vec3(0.5, 1.0, 1.0));
+	transf = glm::translate(transf, glm::vec3(0.0, 1.0, 0.0));
+	shader.setUniformMatrix4f("transform", glm::value_ptr(transf));
+
     Timer timer;
-    timer.startCount();
-    float off = -0.3;
-    float step = 0.01;
+	timer.startCount();
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -159,22 +169,7 @@ int main()
 
         shader.enable();
         glBindVertexArray(VAO);
-
-        if (timer.getElapsedTime() > 0.01) {
-            shader.setUniform1f("offset", off);
-			if (off > 0.3) {
-				step = -0.01;
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			}
-			if (off < -0.3) {
-				step = 0.01;
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-			}
-            
-            off += step;
-            timer.startCount();
-        }
-
+		
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         timer.printFPS();

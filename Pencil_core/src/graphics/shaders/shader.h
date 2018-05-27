@@ -2,6 +2,7 @@
 
 #include <string>
 #include "glad\glad.h"
+#include "glm\glm.hpp"
 
 namespace Pencil {
 
@@ -14,6 +15,7 @@ namespace Pencil {
         void enable() const;
         void disable() const;
 
+		void setUniformMatrix4f(const char* name, const GLfloat* matrix);
         void setUniform4f(const char* name, float f1, float f2, float f3, float f4);
         void setUniform1f(const char* name, float f1);
 		void setUniform1i(const char* name, int i1);

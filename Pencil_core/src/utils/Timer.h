@@ -12,6 +12,7 @@ namespace Pencil {
     public:
         Timer();
         void startCount();
+		bool passed(float seconds);
         float getElapsedTime();
         void printFPS();
         inline float now() { return glfwGetTime(); }

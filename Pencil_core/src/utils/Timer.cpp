@@ -13,6 +13,14 @@ namespace Pencil {
         m_startTime = glfwGetTime();
     }
 
+	bool Timer::passed(float seconds)
+	{
+		if (glfwGetTime() > (m_startTime + seconds))
+			return true;
+		else
+			return false;
+	}
+
     float Timer::getElapsedTime()
     {
         return (glfwGetTime() - m_startTime);

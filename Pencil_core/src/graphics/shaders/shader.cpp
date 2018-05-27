@@ -43,7 +43,12 @@ namespace Pencil {
         glUseProgram(0);
     }
 
-    void Shader::setUniform4f(const char * name, float f1, float f2, float f3, float f4)
+	void Shader::setUniformMatrix4f(const char * name, const GLfloat* matrix)
+	{
+		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, matrix);
+	}
+
+	void Shader::setUniform4f(const char * name, float f1, float f2, float f3, float f4)
     {
         glUniform4f(getUniformLocation(name), f1, f2, f3, f4);
     }

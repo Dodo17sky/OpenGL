@@ -149,6 +149,7 @@
     <ClCompile Include="ext\stb_image\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\graphics\shaders\shader.cpp" />
+    <ClCompile Include="src\graphics\textures\texture.cpp" />
     <ClCompile Include="src\utils\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="ext\stb_image\stb_image.h" />
     <ClInclude Include="src\graphics\shaders\shader.h" />
+    <ClInclude Include="src\graphics\textures\texture.h" />
     <ClInclude Include="src\utils\fileutils.h" />
     <ClInclude Include="src\utils\Timer.h" />
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include "glad\glad.h"
 #include "GLFW\glfw3.h"
 
+#include "src\graphics\textures\texture.h"
 #include "src\graphics\shaders\shader.h"
 #include "src\utils\Timer.h"
 #include "ext\stb_image\stb_image.h"
@@ -101,71 +102,24 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     glBindVertexArray(0); 
 
-	int imgWidth, imgHeight, imgNmbChn;
-	unsigned char* imgBuf = stbi_load("container.jpg", &imgWidth, &imgHeight, &imgNmbChn, 0);
-	unsigned int textureId1, textureId2;
-	glGenTextures(1, &textureId1);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureId1);
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	if (imgBuf) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imgWidth, imgHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imgBuf);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else{
-		std::cout << "Failed to load image texture" << std::endl;
-	}
-	stbi_image_free(imgBuf);
-
-	stbi_set_flip_vertically_on_load(true);
-	imgBuf = stbi_load("awesomeface.png", &imgWidth, &imgHeight, &imgNmbChn, 0);
-	glGenTextures(1, &textureId2);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, textureId2);
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	if (imgBuf) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imgWidth, imgHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgBuf);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else {
-		std::cout << "Failed to load image texture" << std::endl;
-	}
-	stbi_image_free(imgBuf);
+	Texture tex("container.jpg");
+	tex.unbind();
 
 	shader.enable();
-	shader.setUniform1i("ourTexture1", 0);
-	shader.setUniform1i("ourTexture2", 1);
+	shader.setUniform1i("ourTexture1", tex.getTextureSlot());
 
 	glm::mat4 transf;
-	// Order of transform operation that we had in mind:
-	// 1. move 1.0 on y axe
-	// 2. scale 0.5 on x
-	transf = glm::scale(transf, glm::vec3(0.5, 1.0, 1.0));
-	transf = glm::translate(transf, glm::vec3(0.0, 1.0, 0.0));
 	shader.setUniformMatrix4f("transform", glm::value_ptr(transf));
 
     Timer timer;
 	timer.startCount();
-
+	int i = 0;
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
         glClear(GL_COLOR_BUFFER_BIT);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, textureId1);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, textureId2);
+		tex.bind();
 
         shader.enable();
         glBindVertexArray(VAO);

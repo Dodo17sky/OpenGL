@@ -1,8 +1,7 @@
 #version 330 core
 
 layout (location = 0)	in		vec3	m_pos;
-layout (location = 1)	in		vec3	m_Color;
-layout (location = 2)	in		vec2	m_texCoord;
+layout (location = 1)	in		vec2	m_texCoord;
 
 out vec4 pixelColor;	// specify a color output to the fragment shader
 out vec2 texCoord;		// the 2D texture coordinates
@@ -17,6 +16,5 @@ void main()
 	pos = projection * view * model * pos;
 	gl_Position = pos;
 
-	pixelColor = vec4(m_Color.r, m_Color.g, m_Color.b, 1.0f);
 	texCoord = vec2(m_texCoord.x, m_texCoord.y);
 }

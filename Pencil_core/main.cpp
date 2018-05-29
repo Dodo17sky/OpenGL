@@ -58,7 +58,7 @@ int main()
         std::cout << glGetString(GL_VERSION) << std::endl;
     }
 
-    glClearColor(0.2, 0.5, 0.7, 1.0);
+    glClearColor(1.0, 1.0, 0.8, 1.0);
     glViewport(0, 0, 480, 360);
     glfwSetFramebufferSizeCallback(window, resize_callback);
 
@@ -67,15 +67,57 @@ int main()
 
     //Define triangle coordinates
     float coords[] = {
-        /***      POSITION      /**         COLOR          /**	texture coords	*/
-        /**/ -0.9, -0.9, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/		0.0, 0.0,	/**///	bottom left
-        /**/ -0.9,  0.9, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 1.0,	/**///	top left
-        /**/  0.9,  0.9, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	1.0, 1.0,	/**///	top right	
-        /**/  0.9, -0.9, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	1.0, 0.0 	/**///	bottom right
+        // Back
+        /***      POSITION      /**	texture coords	*/
+        /**/  0.0,  0.0, 0.0,   /**/	0.0, 0.0,	/**///	  0 - 0
+        /**/  0.0,  1.0, 0.0,   /**/ 	0.0, 1.0,	/**///	  1 - 1
+        /**/  1.0,  1.0, 0.0,   /**/ 	1.0, 1.0,	/**///	  2 - 2
+        /**/  1.0,  0.0, 0.0,   /**/ 	1.0, 0.0, 	/**///	  3 - 3
+
+        // Right
+        /**/  1.0,  1.0, 0.0,   /**/ 	1.0, 1.0,	/**///	  2 - 4
+        /**/  1.0,  0.0, 0.0,   /**/ 	1.0, 0.0, 	/**///	  3 - 5
+        /**/  1.0,  0.0, 1.0,   /**/	0.0, 0.0,	/**///	  4 - 6
+        /**/  1.0,  1.0, 1.0,   /**/ 	0.0, 1.0,	/**///	  5 - 7
+
+        // Top
+        /**/  0.0,  1.0, 0.0,   /**/ 	0.0, 0.0,	/**///	  1 - 8
+        /**/  1.0,  1.0, 0.0,   /**/ 	1.0, 0.0,	/**///	  2 - 9
+        /**/  1.0,  1.0, 1.0,   /**/ 	1.0, 1.0,	/**///	  5 - 10
+        /**/  0.0,  1.0, 1.0,   /**/ 	0.0, 1.0,	/**///	  7 - 11
+
+        // Left
+        /**/  0.0,  0.0, 0.0,   /**/	1.0, 0.0,	/**///	  0 - 12
+        /**/  0.0,  1.0, 0.0,   /**/ 	1.0, 1.0,	/**///	  1 - 13
+        /**/  0.0,  1.0, 1.0,   /**/ 	0.0, 1.0,	/**///	  7 - 14
+        /**/  0.0,  0.0, 1.0,   /**/ 	0.0, 0.0,	/**///	  6 - 15
+        
+        // Bottom
+        /**/  0.0,  0.0, 0.0,   /**/	0.0, 1.0,	/**///	  0 - 16
+        /**/  1.0,  0.0, 0.0,   /**/ 	1.0, 1.0, 	/**///	  3 - 17
+        /**/  1.0,  0.0, 1.0,   /**/	1.0, 0.0,	/**///	  4 - 18
+        /**/  0.0,  0.0, 1.0,   /**/ 	0.0, 0.0,	/**///	  6 - 19
+
+        // Front
+        /**/  0.0,  1.0, 1.0,   /**/ 	0.0, 1.0,	/**///	  7 - 20
+        /**/  0.0,  0.0, 1.0,   /**/ 	0.0, 0.0,	/**///	  6 - 21
+        /**/  1.0,  0.0, 1.0,   /**/	1.0, 0.0,	/**///	  4 - 22
+        /**/  1.0,  1.0, 1.0,   /**/ 	1.0, 1.0	/**///	  5 - 23
+
     };
     GLuint indices[] = {
         0, 1, 2,
-        0, 2, 3
+        0, 2, 3,
+        4, 5, 6,
+        4, 6, 7,
+        8, 9, 10,
+        8, 10, 11,
+        12, 13, 14,
+        12, 14, 15,
+        16, 17, 18,
+        16, 18, 19,
+        20, 21, 22,
+        20, 22, 23
     };
 
     GLuint VBO, VAO, EBO;
@@ -95,37 +137,46 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // Step 4: set "Vertex attribute"
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)12);
-    glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)24);
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)12);
+	glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     glBindVertexArray(0); 
 
-	Texture tex("timber.jpg");
+    //Texture tex("image/container.jpg");
+    Texture tex("image/timber.jpg");
+    //Texture tex("image/container.jpg");
 	tex.unbind();
-
-    glm::mat4 model, view, projection;
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(45.0f), screenWidth/screenHeight, 0.1f, 100.0f);
-
 	shader.enable();
-	shader.setUniform1i("ourTexture1", tex.getTextureSlot());
+	shader.setUniform1i("ourTexture", tex.getTextureSlot());
 
 
     Timer timer;
 	timer.startCount();
 	int i = 0;
+
+    glm::mat4 model, view, projection;
+    model = glm::translate(model, glm::vec3(-0.5f, -0.5f, -0.0f));
+    model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    projection = glm::perspective(glm::radians(45.0f), screenWidth/screenHeight, 0.1f, 100.0f);
+
+    glEnable(GL_DEPTH_TEST); 
+
     while (!glfwWindowShouldClose(window)) {
+
         processInput(window);
+        
+        if (timer.passed(0.02f)) {
+            model = glm::rotate(model, glm::radians(1.0f), glm::vec3(0.5f, 1.0f, 1.0f));
+            timer.startCount();
+        }
 
-        glClear(GL_COLOR_BUFFER_BIT);
-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		tex.bind();
+        
 
         shader.enable();
         shader.setUniformMatrix4f("model", glm::value_ptr(model));
@@ -134,7 +185,7 @@ int main()
 
         glBindVertexArray(VAO);
 		
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
         timer.printFPS();
 

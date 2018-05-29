@@ -7,12 +7,14 @@ layout (location = 2)	in		vec2	m_texCoord;
 out vec4 pixelColor;	// specify a color output to the fragment shader
 out vec2 texCoord;		// the 2D texture coordinates
 
-uniform mat4 transform;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-	vec4 pos = vec4(m_pos.x, m_pos.y, m_pos.z, 1.0);
-	pos = transform * pos;
+	vec4 pos = vec4(m_pos, 1.0);
+	pos = projection * view * model * pos;
 	gl_Position = pos;
 
 	pixelColor = vec4(m_Color.r, m_Color.g, m_Color.b, 1.0f);

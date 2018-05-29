@@ -21,6 +21,9 @@ void processInput(GLFWwindow* win);
 // Global variables
 GLenum polygonMode = GL_FILL;
 
+#define screenWidth     480.0f
+#define screenHeight    360.0f
+
 int main()
 {
     using namespace Pencil;
@@ -39,7 +42,7 @@ int main()
 
     glfwWindowHint(GLFW_OPENGL_CORE_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(480, 360, "Pencil game engine", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "Pencil game engine", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window!" << std::endl;
         glfwTerminate();
@@ -65,10 +68,10 @@ int main()
     //Define triangle coordinates
     float coords[] = {
         /***      POSITION      /**         COLOR          /**	texture coords	*/
-        /**/ -1.0, -1.0, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/		0.0, 0.0,	/**///	bottom left
-        /**/ -1.0,  0.0, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 1.0,	/**///	top left
-        /**/  0.0,  0.0, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	1.0, 1.0,	/**///	top right	
-        /**/  0.0, -1.0, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	1.0, 0.0 	/**///	bottom right
+        /**/ -0.9, -0.9, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/		0.0, 0.0,	/**///	bottom left
+        /**/ -0.9,  0.9, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	0.0, 1.0,	/**///	top left
+        /**/  0.9,  0.9, 0.0,   /**/    1.0f, 0.0f, 0.0f,  /**/ 	1.0, 1.0,	/**///	top right	
+        /**/  0.9, -0.9, 0.0,   /**/    0.0f, 1.0f, 0.0f,  /**/ 	1.0, 0.0 	/**///	bottom right
     };
     GLuint indices[] = {
         0, 1, 2,
@@ -102,14 +105,17 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     glBindVertexArray(0); 
 
-	Texture tex("container.jpg");
+	Texture tex("timber.jpg");
 	tex.unbind();
+
+    glm::mat4 model, view, projection;
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    projection = glm::perspective(glm::radians(45.0f), screenWidth/screenHeight, 0.1f, 100.0f);
 
 	shader.enable();
 	shader.setUniform1i("ourTexture1", tex.getTextureSlot());
 
-	glm::mat4 transf;
-	shader.setUniformMatrix4f("transform", glm::value_ptr(transf));
 
     Timer timer;
 	timer.startCount();
@@ -122,6 +128,10 @@ int main()
 		tex.bind();
 
         shader.enable();
+        shader.setUniformMatrix4f("model", glm::value_ptr(model));
+        shader.setUniformMatrix4f("view", glm::value_ptr(view));
+        shader.setUniformMatrix4f("projection", glm::value_ptr(projection));
+
         glBindVertexArray(VAO);
 		
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

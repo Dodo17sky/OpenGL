@@ -148,6 +148,10 @@
     <ClCompile Include="ext\glad\glad.c" />
     <ClCompile Include="ext\stb_image\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\graphics\buffers\buffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\indexbuffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\vertexarray.cpp" />
+    <ClCompile Include="src\graphics\Objects2D3D\object.cpp" />
     <ClCompile Include="src\graphics\shaders\shader.cpp" />
     <ClCompile Include="src\graphics\textures\texture.cpp" />
     <ClCompile Include="src\utils\Timer.cpp" />
@@ -158,6 +162,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\stb_image\stb_image.h" />
+    <ClInclude Include="src\graphics\buffers\buffer.h" />
+    <ClInclude Include="src\graphics\buffers\indexbuffer.h" />
+    <ClInclude Include="src\graphics\buffers\vertexarray.h" />
+    <ClInclude Include="src\graphics\Objects2D3D\object.h" />
     <ClInclude Include="src\graphics\shaders\shader.h" />
     <ClInclude Include="src\graphics\textures\texture.h" />
     <ClInclude Include="src\utils\fileutils.h" />

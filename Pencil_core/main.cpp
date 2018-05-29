@@ -11,6 +11,9 @@
 #include "src\graphics\buffers\vertexarray.h"
 #include "src\graphics\buffers\buffer.h"
 
+#include "src\graphics\Objects2D3D\Object2D.h"
+#include "src\graphics\Objects2D3D\Renderer.h"
+
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 #include "glm\gtc\type_ptr.hpp";
@@ -38,28 +41,21 @@ int main()
     Pencil::Shader shader("src/graphics/shaders/basic.vertex", "src/graphics/shaders/basic.fragment");
     shader.disable();
 
-    GLfloat vertices[] = {
-        -0.5, -0.5, 0.0,
-        -0.5,  0.5, 0.0,
-         0.5,  0.5, 0.0,
+#define color_Blue  glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)
 
-         -0.5, -0.5, 0.0,
-         0.5,  0.5, 0.0,
-         0.5, -0.5, 0.0
-    };
-
-    VertexArray v;
-    v.addBuffer(new Buffer(vertices, 18, 3), 0);
+    Object2D rec1(glm::vec3(0,0,0), glm::vec2(0.5, 0.5), &shader, color_Blue);
+    Object2D rec2(glm::vec3(-1.0,-1.0,0), glm::vec2(0.2, 0.2), &shader, color_Blue);
+    
+    Renderer renderer;
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-        shader.enable();
-        v.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        v.unbind();
+        renderer.add(&rec1);
+        renderer.add(&rec2);
+        renderer.draw();
         
         glfwSwapBuffers(window);
         glfwPollEvents();

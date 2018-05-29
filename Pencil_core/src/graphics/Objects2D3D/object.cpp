@@ -12,6 +12,10 @@ namespace Pencil {
         setDefaultUV();
     }
 
+    Object::~Object()
+    {
+    }
+
     void Object::setDefaultUV()
     {
         m_UV[0] = glm::vec2(0.0, 0.0);

@@ -1,0 +1,13 @@
+.gitignore
+.vs/
+Pencil_core.VC.VC.opendb
+Pencil_core.VC.db
+Pencil_core/.vs/
+Pencil_core/Pencil_core.vcxproj.user
+bin/Pencil_core/Debug/Intermediate/
+bin/Pencil_core/Debug/Pencil_core.ilk
+bin/Pencil_core/Debug/Pencil_core.pdb
+bin/Pencil_core/Release/Intermediate/*
+bin/Pencil_core/Release/Pencil_core.iobj
+bin/Pencil_core/Release/Pencil_core.ipdb
+bin/Pencil_core/Release/Pencil_core.pdb

@@ -4,7 +4,7 @@
 #include <iostream>
 
 namespace Pencil {
-	short Texture::m_TexIndex = 0;
+    GLushort Texture::m_TexIndex = 0;
 
 	Texture::Texture(const std::string & fileName)
 		: m_FileName(fileName)

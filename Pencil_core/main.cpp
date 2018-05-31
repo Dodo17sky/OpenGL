@@ -42,9 +42,10 @@ int main()
     shader.disable();
 
 #define color_Blue  glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)
+#define color_Red   glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)
 
     Object2D rec1(glm::vec3(0,0,0), glm::vec2(0.5, 0.5), &shader, color_Blue);
-    Object2D rec2(glm::vec3(-1.0,-1.0,0), glm::vec2(0.2, 0.2), &shader, color_Blue);
+    Object2D rec2(glm::vec3(-1.0,-1.0,0), glm::vec2(0.2, 0.2), &shader, color_Red);
     
     Renderer renderer;
 

@@ -4,7 +4,7 @@
 #include "glm\gtc\type_ptr.hpp"
 
 namespace Pencil {
-    void Renderer::add(const Object * obj)
+    void Renderer::add(const Object2D * obj)
     {
         m_ObjectsList.push_back(obj);
     }
@@ -13,8 +13,8 @@ namespace Pencil {
     {
         while(!m_ObjectsList.empty())
         {
-            const Object* object = m_ObjectsList.front();
-
+            const Object2D* object = m_ObjectsList.front();
+            object->getShader()->enable();
             object->getVAO()->bind();
             object->getEBO()->bind();
             
@@ -22,6 +22,8 @@ namespace Pencil {
                 
             object->getEBO()->unbind();
             object->getVAO()->unbind();
+            object->getShader()->disable();
+
             m_ObjectsList.pop_front();
         }
     }

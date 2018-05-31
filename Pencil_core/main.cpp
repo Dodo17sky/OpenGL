@@ -21,6 +21,7 @@
 
 // callbacks
 void resize_callback(GLFWwindow* win, int width, int height);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 // static functions
 void processInput(GLFWwindow* win);
@@ -30,6 +31,9 @@ void all_inits();
 // Global variables
 GLenum polygonMode = GL_FILL;
 GLFWwindow* window;
+Pencil::Renderer renderer;
+
+#define log(x) std::cout << x << std::endl
 
 #define screenWidth     480.0f
 #define screenHeight    360.0f
@@ -45,20 +49,22 @@ int main()
 #define color_Blue  glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)
 #define color_Red   glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)
 
-    Pencil::Rectangle rec1(glm::vec3(0,0,0), glm::vec2(0.5, 0.5), &shader, color_Blue);
+    Pencil::Rectangle rec1(glm::vec3(-0.8, -0.6,0), glm::vec2(0.5, 0.5), &shader, color_Blue);
     rec1.setFillType(Rectangle::RECTYPE_EMPTY);
+    rec1.setLineWidth(5);
+    rec1.setName("Blue");
     Pencil::Rectangle rec2(glm::vec3(-1.0,-1.0,0), glm::vec2(0.2, 0.2), &shader, color_Red);
     rec2.setFillType(Rectangle::RECTYPE_EMPTY);
-    
-    Renderer renderer;
+    rec2.setLineWidth(1);
+    rec2.setName("Red");
+
+    renderer.add(&rec2);
+    renderer.add(&rec1);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
-       
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-        renderer.add(&rec1);
-        renderer.add(&rec2);
         renderer.draw();
         
         glfwSwapBuffers(window);
@@ -73,6 +79,36 @@ int main()
 void resize_callback(GLFWwindow* win, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    enum MouseState { UNKNOWN, PRESS_FIRST, PRESS, REPEAT, RELEASE  };
+    static MouseState state = UNKNOWN;
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        log("mouse-left down");
+        log(mods);
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_REPEAT) {
+        log("mouse-left repeate");
+        log(mods);
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        xpos = ((xpos*2)/screenWidth - 1);
+        ypos = screenHeight - ypos;
+        ypos = ((ypos*2)/screenHeight - 1);
+
+        const Pencil::Object2D* obj = renderer.getIntersectedObject(xpos, ypos);
+        if (obj != nullptr) {
+            std::cout << obj->getName() << std::endl;
+        }
+    }
 }
 
 void processInput(GLFWwindow * win)
@@ -120,5 +156,6 @@ void all_inits()
     glClearColor(1.0, 1.0, 0.8, 1.0);
     glViewport(0, 0, 480, 360);
     glfwSetFramebufferSizeCallback(window, resize_callback);
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
     glEnable(GL_DEPTH_TEST); 
 }

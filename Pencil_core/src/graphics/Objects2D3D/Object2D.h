@@ -21,6 +21,8 @@ namespace Pencil {
         IndexBuffer* m_EBO;
         Texture*    m_Texture;
         Shader*     m_Shader;
+
+        std::string m_Name;
     public:
         Object2D(const glm::vec3& pos, const glm::vec2& size, Shader* shader, glm::vec4& color = glm::vec4(1.0, 1.0, 1.0, 1.0));
         ~Object2D();
@@ -38,6 +40,7 @@ namespace Pencil {
         inline const glm::vec3& getPosition() const { return m_Position; }
         inline const glm::vec2& getSize() const { return m_Size; }
         inline const glm::vec4& getColor() const { return m_Color; }
+        inline const std::string& getName() const { return m_Name; }
 
         bool isRendereble() const;
     private:

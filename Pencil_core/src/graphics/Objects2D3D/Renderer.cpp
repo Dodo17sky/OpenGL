@@ -3,8 +3,10 @@
 #include "glm\gtc\matrix_transform.hpp"
 #include "glm\gtc\type_ptr.hpp"
 
+#include <iostream>
+
 namespace Pencil {
-    void Renderer::add(const Object2D * obj)
+    void Renderer::add(Object2D * obj)
     {
         m_ObjectsList.push_back(obj);
     }
@@ -13,17 +15,14 @@ namespace Pencil {
     {
         while(!m_ObjectsList.empty())
         {
-            const Object2D* object = m_ObjectsList.front();
-            object->getShader()->enable();
-            object->getVAO()->bind();
-            object->getEBO()->bind();
-            
-            glDrawElements(GL_TRIANGLES, object->getEBO()->getCount(),GL_UNSIGNED_SHORT, nullptr);
-                
-            object->getEBO()->unbind();
-            object->getVAO()->unbind();
-            object->getShader()->disable();
+            Object2D* object = m_ObjectsList.front();
 
+            if (object->isRendereble()) {
+                object->draw();
+            }
+            else {
+                std::cout << "Warning: Object2D cound not be rendered" << std::endl;
+            }
             m_ObjectsList.pop_front();
         }
     }

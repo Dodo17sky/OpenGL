@@ -151,6 +151,7 @@
     <ClCompile Include="src\graphics\buffers\buffer.cpp" />
     <ClCompile Include="src\graphics\buffers\indexbuffer.cpp" />
     <ClCompile Include="src\graphics\buffers\vertexarray.cpp" />
+    <ClCompile Include="src\graphics\Objects2D3D\geometrics\rectangle.cpp" />
     <ClCompile Include="src\graphics\Objects2D3D\Object2D.cpp" />
     <ClCompile Include="src\graphics\Objects2D3D\Renderer.cpp" />
     <ClCompile Include="src\graphics\shaders\shader.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="src\graphics\buffers\buffer.h" />
     <ClInclude Include="src\graphics\buffers\indexbuffer.h" />
     <ClInclude Include="src\graphics\buffers\vertexarray.h" />
+    <ClInclude Include="src\graphics\Objects2D3D\geometrics\rectangle.h" />
     <ClInclude Include="src\graphics\Objects2D3D\Object2D.h" />
     <ClInclude Include="src\graphics\Objects2D3D\Renderer.h" />
     <ClInclude Include="src\graphics\shaders\shader.h" />

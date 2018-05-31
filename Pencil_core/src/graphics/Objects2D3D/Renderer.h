@@ -8,10 +8,10 @@ namespace Pencil {
 
     class Renderer {
     private:
-        std::deque<const Object2D*> m_ObjectsList;
+        std::deque<Object2D*> m_ObjectsList;
 
     public:
-        void add(const Object2D* obj);
+        void add(Object2D* obj);
         void draw();
     };
 }

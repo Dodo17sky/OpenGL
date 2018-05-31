@@ -13,6 +13,7 @@
 
 #include "src\graphics\Objects2D3D\Object2D.h"
 #include "src\graphics\Objects2D3D\Renderer.h"
+#include "src\graphics\Objects2D3D\geometrics\rectangle.h"
 
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
@@ -44,8 +45,10 @@ int main()
 #define color_Blue  glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)
 #define color_Red   glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)
 
-    Object2D rec1(glm::vec3(0,0,0), glm::vec2(0.5, 0.5), &shader, color_Blue);
-    Object2D rec2(glm::vec3(-1.0,-1.0,0), glm::vec2(0.2, 0.2), &shader, color_Red);
+    Pencil::Rectangle rec1(glm::vec3(0,0,0), glm::vec2(0.5, 0.5), &shader, color_Blue);
+    rec1.setFillType(Rectangle::RECTYPE_EMPTY);
+    Pencil::Rectangle rec2(glm::vec3(-1.0,-1.0,0), glm::vec2(0.2, 0.2), &shader, color_Red);
+    rec2.setFillType(Rectangle::RECTYPE_EMPTY);
     
     Renderer renderer;
 

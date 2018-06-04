@@ -1,6 +1,8 @@
-#include "shader.h"
-
 #include <iostream>
+
+#include "shader.h"
+#include "glad\glad.h"
+
 
 #include "../../utils/fileutils.h"
 
@@ -8,8 +10,8 @@ namespace Pencil {
 
     Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath)
     {
-        unsigned int vertexShaderId = compileShader(GL_VERTEX_SHADER, vertexShaderPath);
-        unsigned int fragmentShaderId = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath);
+        unsigned int vertexShaderId = compileShader(1, vertexShaderPath);
+        unsigned int fragmentShaderId = compileShader(2, fragmentShaderPath);
 
         m_programId = glCreateProgram();
         glAttachShader(m_programId, vertexShaderId);
@@ -43,7 +45,7 @@ namespace Pencil {
         glUseProgram(0);
     }
 
-	void Shader::setUniformMatrix4f(const char * name, const GLfloat* matrix)
+	void Shader::setUniformMatrix4f(const char * name, const float* matrix)
 	{
 		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, matrix);
 	}
@@ -63,13 +65,17 @@ namespace Pencil {
 		glUniform1i(getUniformLocation(name), i1);
 	}
 
-    unsigned int Shader::compileShader(GLenum type, const char* filePath)
+    unsigned int Shader::compileShader(int type, const char* filePath)
     {
         std::string str = Pencil::read_file(filePath);
         const char* shaderSource = str.c_str();
         unsigned int shaderId;
 
-        shaderId = glCreateShader(type);
+		if(type == 1)
+			shaderId = glCreateShader(GL_VERTEX_SHADER);
+		else
+			shaderId = glCreateShader(GL_FRAGMENT_SHADER);
+
         glShaderSource(shaderId, 1, &shaderSource, NULL);
         glCompileShader(shaderId);
         int ok;

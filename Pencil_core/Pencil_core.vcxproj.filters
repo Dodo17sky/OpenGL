@@ -51,6 +51,12 @@
     <ClCompile Include="src\graphics\Objects2D3D\geometrics\rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\shaders\basic.vertex" />
@@ -88,6 +94,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\Objects2D3D\geometrics\rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mainApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\gltypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

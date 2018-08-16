@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 
 #include "glad\glad.h"
 #include "GLFW\glfw3.h"
@@ -30,11 +31,11 @@ protected:
     GLFWwindow                  *m_window;
     Pencil::Shader              *m_shader;
     Pencil::Renderer            *m_renderer;
-
-private:
+    std::string                 m_title;
     glMatModel                  m_model;
     glMatView                   m_view;
     glMatProjection             m_projection;
+    glm::mat4                   m_MVP;
     GLfloat                     m_winHeight;
     GLfloat                     m_winWidth;
 

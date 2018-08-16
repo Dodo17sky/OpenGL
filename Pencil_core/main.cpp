@@ -4,7 +4,6 @@ int main()
 {
     TestWindow  app;
 
-    app.init();
     app.createGui();
     
     while (!app.isClosing()) {

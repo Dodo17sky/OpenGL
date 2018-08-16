@@ -4,17 +4,31 @@ MainWindow::MainWindow(const char * title, GLfloat width, GLfloat height):
     m_window(nullptr)
     , m_shader(nullptr)
     , m_renderer(nullptr)
+    , m_title(title)
     , m_winHeight(height)
     , m_winWidth(width)
 {
-    glfwInit();
+    glfwInit(); 
+}
+
+MainWindow::~MainWindow()
+{
+    delete m_shader;
+    delete m_renderer;
+    delete m_window;
+}
+
+int MainWindow::init()
+{
+    int retCode = 0;
 
     glfwWindowHint(GLFW_OPENGL_CORE_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    m_window = glfwCreateWindow(
-        m_winWidth, m_winHeight, 
-        (title==nullptr)?"Main window":title, 
-        NULL, NULL);
+    std::string title = "Main window";
+    if(!m_title.empty())
+        title = m_title;
+
+    m_window = glfwCreateWindow( m_winWidth, m_winHeight, title.c_str(), NULL, NULL);
     if (m_window == NULL) {
         std::cout << "Failed to create GLFW window!" << std::endl;
         glfwTerminate();
@@ -31,41 +45,26 @@ MainWindow::MainWindow(const char * title, GLfloat width, GLfloat height):
     }
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
-    glViewport(0, 0, m_winWidth, m_winHeight);
-    
-    glEnable(GL_DEPTH_TEST); 
-}
-
-MainWindow::~MainWindow()
-{
-    delete m_shader;
-    delete m_renderer;
-    delete m_window;
-}
-
-int MainWindow::init()
-{
-    int retCode = 0;
+    glEnable(GL_DEPTH_TEST);
 
     m_shader = new Pencil::Shader("basic.vertex", "basic.fragment");
     m_shader->disable();
 
     m_renderer = new Pencil::Renderer();
-
-    initMatrixMVP();
-
+    
     return 0;
 }
 
 int MainWindow::initMatrixMVP()
 {
-    m_model      = glm::mat4();
-    m_view       = glm::mat4();
-    m_projection = glm::mat4();
+    m_model      = glm::mat4(1.0f);
+    m_view       = glm::mat4(1.0f);
+    m_projection = glm::mat4(1.0f);
 
-    auto a = glm::value_ptr(m_model);
-
-    m_shader->setUniformMatrix4f("model", a);
+    m_shader->enable();
+    m_shader->setUniformMatrix4f("model", glm::value_ptr(m_model));
+    m_shader->setUniformMatrix4f("view", glm::value_ptr(m_view));
+    m_shader->setUniformMatrix4f("projection", glm::value_ptr(m_projection));
 
     return 0;
 }

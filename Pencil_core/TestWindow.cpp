@@ -5,6 +5,7 @@ TestWindow::TestWindow():
     //MainWindow("Test window")
     , m_leftPanel(nullptr)
     , m_leftLine(nullptr)
+    , m_points(nullptr)
 {
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
@@ -20,6 +21,7 @@ TestWindow::~TestWindow()
 {
     delete m_leftPanel;
     delete m_leftLine;
+    delete m_points;
 }
 
 int TestWindow::draw()
@@ -31,6 +33,7 @@ int TestWindow::draw()
 
     m_renderer->add(m_leftLine);
     m_renderer->add(m_leftPanel);
+    m_renderer->add(m_points);
 
     m_renderer->draw();
     
@@ -62,6 +65,19 @@ int TestWindow::createGui()
         m_shader, 
         GL_COLOR_BLACK);
     m_leftLine->setLineWidth(3.0f);
+
+    glm::vec3 pts[] = {
+        {300.0f,  50.0f, 0.0f},
+        {350.0f, 100.0f, 0.0f},
+        {400.0f, 150.0f, 0.0f},
+        {450.0f, 200.0f, 0.0f},
+        {500.0f, 150.0f, 0.0f},
+        {550.0f, 100.0f, 0.0f}
+    };
+    m_points = new Pencil::Point(m_shader);
+    m_points->setColor(GL_COLOR_GREEN);
+    m_points->setPointSize(5.0f);
+    m_points->addPoints(pts,6);
 
     return 0;
 }

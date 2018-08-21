@@ -30,6 +30,7 @@ namespace Pencil {
         virtual void draw() = 0;
 
         inline void setShader(Shader* shader) { m_Shader = shader; }
+        inline void setColor(glm::vec4& color) { m_Color = color; }
         inline void setTexture(Texture* texture) {m_Texture = texture; }
 
         inline const VertexArray* getVAO() const { return m_VAO; }

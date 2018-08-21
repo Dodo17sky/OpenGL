@@ -10,7 +10,6 @@ namespace Pencil {
 	{
 	private:
 		GLuint m_ArrayID;
-		std::vector<Buffer*> m_Buffers;
 	public:
 		VertexArray();
 		~VertexArray();
